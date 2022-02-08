@@ -1,52 +1,15 @@
-import { useState, useEffect, } from "react";
 import Filter from "./components/filter/Filter";
 import ContactsList from "./components/contactsList/ContactsList";
 import ContactsForm from "./components/contactsForm/ContactsForm";
 
 export default function App() {
-  const [contacts, setContacts] = useState(
-    () => JSON.parse(localStorage.getItem('contacts')) ?? [],
-  );
-  const [filter, setFilter] = useState('');
-
-  useEffect(() => {
-    localStorage.setItem('contacts', JSON.stringify(contacts));
-  }, [contacts]);
-
-  const addNewContact = (contactName) => {
-    if (
-      contacts.some(contact => contact.name.toLowerCase() === contactName.name.toLowerCase())
-    ) {
-      return alert(`${contactName.name}  is already in contacts.`);
-    } else {
-      setContacts((prevState) => [contactName, ...prevState]);
-    }
-  }
-
-  const deleteContact = (id) => {
-    setContacts((prevState) => prevState.filter((contact) => contact.id !== id));
-  }
-
-  const filterContact = event => {
-    setFilter(event.target.value);
-  };
-
-  const filterAllContacts = () => {
-    return contacts.filter((contact) =>
-      contact.name.toLowerCase().includes(filter.toLowerCase())
-    );
-  };
-
   return (
     <div>
        <h1>Phonebook</h1>
-       <ContactsForm onSubmit={addNewContact} />
+       <ContactsForm />
       <h2>Contacts</h2>
-      <Filter value={filter} onChangeFilter={filterContact} />
-      <ContactsList
-        contacts={filterAllContacts()}
-        deleteContact={deleteContact}
-      />
+      <Filter />
+      <ContactsList />
     </div>
   );
   
